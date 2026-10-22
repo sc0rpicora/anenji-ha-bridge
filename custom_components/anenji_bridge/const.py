@@ -290,15 +290,6 @@ class AnenjiBridgeSwitchDescription(SwitchEntityDescription):
 
 SWITCH_DESCRIPTIONS: tuple[AnenjiBridgeSwitchDescription, ...] = (
     AnenjiBridgeSwitchDescription(
-        key="backlight",
-        json_key="backlight_status",
-        name="LCD Backlight",
-        icon="mdi:monitor-shimmer",
-        on_value=1,
-        cmd_on="SET_BACKLIGHT_1",
-        cmd_off="SET_BACKLIGHT_0",
-    ),
-    AnenjiBridgeSwitchDescription(
         key="grid_charging",
         json_key="charger_priority",
         name="Grid Charging",
@@ -503,6 +494,17 @@ SELECT_DESCRIPTIONS: tuple[AnenjiBridgeSelectDescription, ...] = (
             "LIb": "SET_BATTERY_TYPE_8",
         },
     ),
+    AnenjiBridgeSelectDescription(
+        key="backlight",
+        json_key="backlight_status",
+        name="LCD Backlight",
+        icon="mdi:monitor-shimmer",
+        options=["Timed off", "Always on"],
+        options_map={
+            "Timed off": "SET_BACKLIGHT_0",
+            "Always on": "SET_BACKLIGHT_1",
+        },
+    ),
 )
 
 
@@ -545,6 +547,10 @@ BATTERY_TYPE_MAP: dict[int, str] = {
 
 # Map json_key → reverse lookup dict
 SELECT_REVERSE_MAPS: dict[str, dict[int, str]] = {
+    "backlight_status": {
+        0: "Timed off",
+        1: "Always on",
+    },
     "output_mode": OUTPUT_MODE_MAP,
     "charger_priority": CHARGER_PRIORITY_MAP,
     "buzzer_mode": BUZZER_MODE_MAP,
