@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Anenji ANJ-12KP Inverter Bridge v2 — VPS TCP Intercept + MQTT Control
+Anenji ANJ-12KP Inverter Bridge v3 — VPS TCP Intercept + MQTT Control
 
 Intercepts the WiFi dongle's cloud connection (port 18899) on the VPS.
 Requires DNAT at your router: <cloud_ip>:18899 → <vps_ip>:18899
