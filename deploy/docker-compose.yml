@@ -3,8 +3,8 @@ services:
   # Keep as fallback; gets no data when DNAT redirects dongle to VPS
   anenji-bridge:
     build:
-      context: ../..
-      dockerfile: deploy/Dockerfile
+      context: .
+      dockerfile: ./Dockerfile
     container_name: anenji-bridge
     restart: unless-stopped
     network_mode: host
@@ -24,8 +24,8 @@ services:
   # Requires DNAT at router: <cloud_ip>:18899 → <vps_ip>:18899
   anenji-bridge-tcp:
     build:
-      context: ../..
-      dockerfile: deploy/Dockerfile.tcp
+      context: .
+      dockerfile: ./Dockerfile.tcp
     container_name: anenji-bridge-tcp
     restart: unless-stopped
     network_mode: host
