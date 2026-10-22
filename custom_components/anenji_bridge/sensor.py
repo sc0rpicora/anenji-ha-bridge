@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -21,19 +22,23 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up Anenji Bridge sensors from a config entry."""
+    """Set up Anenji inverter sensors."""
     coordinator: AnenjiBridgeCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     async_add_entities(
-        AnenjiBridgeSensor(coordinator, entry, desc)
-        for desc in SENSOR_DESCRIPTIONS
+        AnenjiBridgeSensor(coordinator, entry, description)
+        for description in SENSOR_DESCRIPTIONS
     )
 
 
-class AnenjiBridgeSensor(CoordinatorEntity[AnenjiBridgeCoordinator]):
-    """Representation of an Anenji Bridge sensor."""
+class AnenjiBridgeSensor(
+    CoordinatorEntity[AnenjiBridgeCoordinator],
+    SensorEntity,
+):
+    """Representation of an Anenji inverter sensor."""
 
     _attr_has_entity_name = True
+
     entity_description: AnenjiBridgeSensorDescription
 
     def __init__(
@@ -44,28 +49,28 @@ class AnenjiBridgeSensor(CoordinatorEntity[AnenjiBridgeCoordinator]):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator)
+
         self.entity_description = description
         self._attr_unique_id = f"{entry.entry_id}_{description.key}"
+
         self._attr_device_info = {
             "identifiers": {(DOMAIN, entry.entry_id)},
             "name": "Anenji Inverter",
             "manufacturer": MANUFACTURER,
             "model": "SRNE-based Hybrid Inverter",
-            "configuration_url": f"http://{coordinator.host}:{coordinator.port}",
         }
 
     @property
-    def available(self) -> bool:
-        """Return True if the bridge is responding."""
-        return (
-            super().available
-            and self.coordinator.data is not None
-            and self.coordinator.data.get("device_status_msg") != "Offline"
-        )
+    def native_value(self) -> int | float | str | None:
+        """Return the sensor value from the coordinator data."""
+        data = self.coordinator.data
+
+        if data is None:
+            return None
+
+        return data.get(self.entity_description.json_key)
 
     @property
-    def native_value(self):
-        """Return the state of the sensor."""
-        if self.coordinator.data is None:
-            return None
-        return self.coordinator.data.get(self.entity_description.json_key)
+    def available(self) -> bool:
+        """Return whether the sensor has data available."""
+        return super().available and self.coordinator.data is not None
