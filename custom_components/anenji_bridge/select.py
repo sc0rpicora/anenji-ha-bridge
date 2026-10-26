@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 
+from homeassistant.components.select import SelectEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -35,7 +36,10 @@ async def async_setup_entry(
     )
 
 
-class AnenjiBridgeSelect(CoordinatorEntity[AnenjiBridgeCoordinator]):
+class AnenjiBridgeSelect(
+    CoordinatorEntity[AnenjiBridgeCoordinator],
+    SelectEntity,
+):
     """Representation of an Anenji Bridge select control."""
 
     _attr_has_entity_name = True
