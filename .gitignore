@@ -1,7 +1,0 @@
-__pycache__/
-*.pyc
-*.bak
-deploy/.env
-deploy/data/inverter_energy.json
-deploy/__pycache__/
-deploy/captured_commands.log
