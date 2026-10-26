@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 
+from homeassistant.components.number import NumberEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -34,7 +35,10 @@ async def async_setup_entry(
     )
 
 
-class AnenjiBridgeNumber(CoordinatorEntity[AnenjiBridgeCoordinator]):
+class AnenjiBridgeNumber(
+    CoordinatorEntity[AnenjiBridgeCoordinator],
+    NumberEntity,
+):
     """Representation of an Anenji Bridge number control."""
 
     _attr_has_entity_name = True
