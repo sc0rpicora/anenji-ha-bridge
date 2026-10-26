@@ -369,6 +369,8 @@ def publish_mqtt(data):
         mqtt_client.publish(f"{p}/energy/grid_input_total_kwh", data.get("total_grid_input_kwh", 0), retain=True)
         mqtt_client.publish(f"{p}/energy/load_total_kwh", data.get("total_load_kwh", 0), retain=True)
         mqtt_client.publish(f"{p}/energy/load_daily_kwh", data.get("load_daily_kwh", 0), retain=True)
+        mqtt_client.publish(f"{p}/energy/battery_charge_total_kwh", data.get("total_battery_charge_kwh", 0), retain=True)
+        mqtt_client.publish(f"{p}/energy/battery_discharge_total_kwh", data.get("total_battery_discharge_kwh", 0), retain=True)
     except Exception as e:
         print(f"[!] MQTT publish error: {e}")
 
@@ -434,6 +436,8 @@ def get_empty_data():
         "total_pv_energy_kwh": round(energy_data["total_pv_kwh"], 4),
         "total_grid_input_kwh": round(energy_data["total_grid_input_kwh"], 4),
         "total_load_kwh": round(energy_data["total_load_kwh"], 4),
+        "total_battery_charge_kwh": round(energy_data["total_battery_charge_kwh"], 4),
+        "total_battery_discharge_kwh": round(energy_data["total_battery_discharge_kwh"], 4),
     }
 
 
@@ -586,6 +590,8 @@ def inverter_server():
                                     latest_data_json["total_pv_energy_kwh"] = round(energy_data["total_pv_kwh"], 4)
                                     latest_data_json["total_grid_input_kwh"] = round(energy_data["total_grid_input_kwh"], 4)
                                     latest_data_json["total_load_kwh"] = round(energy_data["total_load_kwh"], 4)
+                                    latest_data_json["total_battery_charge_kwh"] = round(energy_data["total_battery_charge_kwh"], 4)
+                                    latest_data_json["total_battery_discharge_kwh"] = round(energy_data["total_battery_discharge_kwh"], 4)
 
                             if (now - last_save_time) > SAVE_INTERVAL:
                                 save_energy_to_disk()
