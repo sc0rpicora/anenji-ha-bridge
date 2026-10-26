@@ -307,6 +307,15 @@ SWITCH_DESCRIPTIONS: tuple[AnenjiBridgeSwitchDescription, ...] = (
         cmd_on="SET_RETURN_DEFAULT_1",
         cmd_off="SET_RETURN_DEFAULT_0",
     ),
+    AnenjiBridgeSwitchDescription(
+    key="lcd_backlight",
+    json_key="backlight_status",
+    name="LCD Backlight",
+    icon="mdi:monitor-shimmer",
+    on_value=1,
+    cmd_on="SET_BACKLIGHT_1",
+    cmd_off="SET_BACKLIGHT_0",
+    ),
 )
 
 
