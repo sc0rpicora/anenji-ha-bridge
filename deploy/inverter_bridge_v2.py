@@ -34,6 +34,8 @@ OFFLINE_THRESHOLD = 10
 # --- MQTT ---
 MQTT_HOST = os.environ.get("MQTT_HOST", "127.0.0.1")
 MQTT_PORT = int(os.environ.get("MQTT_PORT", "1883"))
+MQTT_USERNAME = os.environ.get("MQTT_USERNAME", "")
+MQTT_PASSWORD = os.environ.get("MQTT_PASSWORD", "")
 MQTT_TOPIC_PREFIX = os.environ.get("MQTT_TOPIC_PREFIX", "solar/inverter")
 MQTT_PUBLISH_INTERVAL = float(os.environ.get("MQTT_PUBLISH_INTERVAL", "5.0"))
 CONFIG_SET_TOPIC = f"{MQTT_TOPIC_PREFIX}/config/+/set"
