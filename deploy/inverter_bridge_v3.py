@@ -110,6 +110,8 @@ def queue_command(cmd, source="CMD"):
 # --- MQTT ---
 MQTT_HOST = os.environ.get("MQTT_HOST", "127.0.0.1")
 MQTT_PORT = int(os.environ.get("MQTT_PORT", "1883"))
+MQTT_USERNAME = os.environ.get("MQTT_USERNAME", "")
+MQTT_PASSWORD = os.environ.get("MQTT_PASSWORD", "")
 MQTT_TOPIC_PREFIX = os.environ.get("MQTT_TOPIC_PREFIX", "solar/inverter")
 MQTT_PUBLISH_INTERVAL = float(os.environ.get("MQTT_PUBLISH_INTERVAL", "5.0"))
 CONFIG_SET_TOPIC = f"{MQTT_TOPIC_PREFIX}/config/+/set"
@@ -207,25 +209,40 @@ def read_modbus_response(conn):
 
 
 # --- MQTT ---
+
+# --- MQTT ---
 def setup_mqtt():
     global mqtt_client
     try:
         import paho.mqtt.client as paho_mqtt
+
         mqtt_client = paho_mqtt.Client(
             paho_mqtt.CallbackAPIVersion.VERSION2,
             client_id="anenji-bridge-tcp",
             protocol=paho_mqtt.MQTTv311
         )
+
+        # Set credentials before connecting
+        if MQTT_USERNAME:
+            mqtt_client.username_pw_set(
+                MQTT_USERNAME,
+                MQTT_PASSWORD
+            )
+
         mqtt_client.on_connect = on_mqtt_connect
         mqtt_client.on_message = on_mqtt_message
+
         mqtt_client.connect(MQTT_HOST, MQTT_PORT, 60)
         mqtt_client.loop_start()
-        print(f"[*] MQTT connected to {MQTT_HOST}:{MQTT_PORT}")
+
+        print(f"[*] MQTT connection initiated to {MQTT_HOST}:{MQTT_PORT}")
+
     except ImportError:
         print("[!] paho-mqtt not installed — MQTT disabled")
     except Exception as e:
         print(f"[!] MQTT connection failed: {e}")
         mqtt_client = None
+
 
 
 def on_mqtt_connect(client, userdata, flags, rc, properties=None):
