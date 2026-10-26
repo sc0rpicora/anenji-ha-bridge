@@ -308,13 +308,13 @@ SWITCH_DESCRIPTIONS: tuple[AnenjiBridgeSwitchDescription, ...] = (
         cmd_off="SET_RETURN_DEFAULT_0",
     ),
     AnenjiBridgeSwitchDescription(
-    key="lcd_backlight",
-    json_key="backlight_status",
-    name="LCD Backlight",
-    icon="mdi:monitor-shimmer",
-    on_value=1,
-    cmd_on="SET_BACKLIGHT_1",
-    cmd_off="SET_BACKLIGHT_0",
+        key="lcd_backlight",
+        json_key="backlight_status",
+        name="LCD Backlight",
+        icon="mdi:monitor-shimmer",
+        on_value=1,
+        cmd_on="SET_BACKLIGHT_1",
+        cmd_off="SET_BACKLIGHT_0",
     ),
 )
 
@@ -501,17 +501,6 @@ SELECT_DESCRIPTIONS: tuple[AnenjiBridgeSelectDescription, ...] = (
             "LI2": "SET_BATTERY_TYPE_4",
             "LI4": "SET_BATTERY_TYPE_6",
             "LIb": "SET_BATTERY_TYPE_8",
-        },
-    ),
-    AnenjiBridgeSelectDescription(
-        key="backlight",
-        json_key="backlight_status",
-        name="LCD Backlight",
-        icon="mdi:monitor-shimmer",
-        options=["Timed off", "Always on"],
-        options_map={
-            "Timed off": "SET_BACKLIGHT_0",
-            "Always on": "SET_BACKLIGHT_1",
         },
     ),
 )
